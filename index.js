@@ -17,9 +17,30 @@ const readFile = (inputPath) => fs.readFileSync(inputPath, 'utf8', fs.readFile(i
     return data;;
   }}));
 
+// Leer y obtener los links
+const findLinks = (content, inputPath) => {
+  let arrayObjects = [];
+  if(content !== undefined){
+   
+    const regExp = /\[(.+)\]\((https?:\/\/.+)\)/gi;
+    let arrayLinks = [...content.matchAll(regExp)]; // spread operator
 
+  for (let i = 0; i < arrayLinks.length; i++) {
+      arrayObjects.push({
+          href: arrayLinks[i][2],
+          text: arrayLinks[i][1],
+          file: inputPath,
+      });
+  }
+  
+    
+  }
+ 
+    return arrayObjects
+  
+};
 //--------------------Identificar si la ruta absoluta es un archivo
-const isItFile = (inputPath) => fs.statSync(inputPath).isFile();
+//const isItFile = (inputPath) => fs.statSync(inputPath).isFile();
 
 
 const mdLinks = (route, options) =>{
@@ -42,13 +63,18 @@ const mdLinks = (route, options) =>{
 
         //Verficar que no es un archivo vacio
         if(!content== ''){
+          const arrayObjects = findLinks(content, isAbs);
+           resolve(arrayObjects);
           
+
 
         } else {
           reject('The file is empty');
         }
 
 
+      } else {
+        reject('The file is not .md');
       }
 
 
@@ -69,7 +95,8 @@ const mdLinks = (route, options) =>{
 
 }
 module.exports = {
-  mdLinks
+  mdLinks,
+  findLinks
 };
 // Funciones mdlinks que llamara las microfunciones
 // de app.js
