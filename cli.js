@@ -1,6 +1,6 @@
 const { mdLinks } = require('./index.js');
 
-mdLinks('examples/ejemplo1.md').then((response)=>{
+mdLinks('examples/ejemplo1.md', true).then((response)=>{
     console.log(response);
 })
 .catch((error)=> {

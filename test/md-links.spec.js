@@ -1,4 +1,6 @@
-const { mdLinks, findLinks } = require('../index.js');
+const { mdLinks } = require('../index.js');
+const { findLinks } = require('../functions.js');
+
 
 
 
